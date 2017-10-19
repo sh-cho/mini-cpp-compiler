@@ -4,7 +4,6 @@
 	#include <stdlib.h>
 	#include "AST.h"
 
-	int yylex();
 	void yyerror(char *);
 %}
 
@@ -14,6 +13,7 @@
 
 %%
 	/* rules & actions */
+
 	/** 
 	 *	PA1.pdf 내용을 참고.
 	 *	+(one or more), *(zero or more), ?(optional) --> 바꾸는 technique (확실하지는 않음)
@@ -56,9 +56,9 @@ MethodDefList: FuncDef
 	| MethodDefList FuncDef
 	;
 
-VarDecl: Type Ident
-	| Type Ident '=' INT
-	| Type Ident '=' FLOAT	//-->맞나이거; 아닐듯
+VarDecl: Type Ident ';'
+	| Type Ident '=' INTNUM ';'
+	| Type Ident '=' FLOATNUM ';'	//맞는지 확인
 	;
 FuncDecl:
 	;
@@ -78,9 +78,12 @@ ParamList:
 Param:
 	;
 
-Ident:
+Ident: ID
+	| ID '[' INTNUM ']'
 	;
-Type:
+Type: INT
+	| FLOAT
+	| ID
 	;
 
 CompundStmt:
@@ -97,19 +100,21 @@ Stmt: ExprStmt
 	| ForStmt
 	| IfStmt
 	| CompoundStmt
+	| ';'
 	;
 
-ExprStmt:
+ExprStmt: Expr
 	;
 AssignStmt: RefVarExpr '=' Expr
 	;
-RetStmt:
+RetStmt: RETURN
+	| RETURN Expr
 	;
-WhileStmt:
+WhileStmt: WHILE '(' Expr ')' Stmt
 	;
-DoStmt:
+DoStmt: DO Stmt WHILE '(' Expr ')'
 	;
-ForStmt:
+ForStmt: FOR '(' ';' ';' ')'
 	;
 IfStmt:
 	;
@@ -137,11 +142,6 @@ ArgList:
 
 %%
 	/* c code */
-int main(void) {
-	yyparse();
-	return 0;
-}
-
 void yyerror(char *s) {
 	fprintf(stderr, "error: %s\n", s);
 }

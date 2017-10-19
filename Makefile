@@ -1,10 +1,10 @@
-TARGET = compiler
-OBJECTS = lex.yy.c parser.tab.c parser.tab.h
+TARGET = mini-gcc
+OBJECTS = lex.yy.c parser.tab.c parser.tab.h main.c
 
 $(TARGET) : $(OBJECTS)
 	gcc -o $@ $^ -lfl
 
-grammar.tab.c grammar.tab.h : parser.y
+parser.tab.c parser.tab.h : parser.y
 	bison -d $^
 
 lex.yy.c : scanner.l parser.tab.h
