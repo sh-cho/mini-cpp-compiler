@@ -7,9 +7,13 @@
 	void yyerror(char *);
 %}
 
-%token INT FLOAT
-%token CLASS
+%union {
+	struct Program *prog;
+}
 
+%token INTNUM FLOATNUM
+%token CLASS
+%type <prog> Program
 
 %%
 	/* rules & actions */
@@ -33,8 +37,8 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc
-	| MainFunc
+Program: ClassList ClassMethodList MainFunc	{}
+	| MainFunc								{}
 	;
 
 ClassList: Class
