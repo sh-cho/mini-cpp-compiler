@@ -12,8 +12,11 @@
 }
 %token ID
 %token INTNUM
-%token INT
+%token INTTYPE
 %token CLASS PRIVATE PUBLIC
+
+%type<id>	ID
+%type<intnum>	INTNUM
 
 %%
 
@@ -68,7 +71,7 @@ Class: CLASS ID '{' PRIVATE ':' INTNUM ';' '}'
 		}
 	;
 
-MainFunc: INT 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
+MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 		{
 			struct MainFunc *new_main = (struct MainFunc*)malloc(sizeof(struct MainFunc));
 			new_main->body = $9;

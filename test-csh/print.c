@@ -4,6 +4,10 @@
 FILE *fp;
 
 int main() {
+	//for debug
+	extern int yydebug;
+	yydebug = 1;
+
 	// fp = fopen("sample.out", "w");
 	if (!yyparse())
 		print();

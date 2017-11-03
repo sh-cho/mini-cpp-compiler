@@ -5,10 +5,10 @@ $(TARGET) : $(OBJECTS)
 	gcc -o $@ $^ -lfl -g
 
 parser.tab.c parser.tab.h : parser.y
-	bison -d $^
+	bison -t -d $^
 
 lex.yy.c : scanner.l parser.tab.h
-	flex $<
+	flex -d $<
 
 clean:
 	rm $(OBJECTS) $(TARGET)

@@ -26,7 +26,10 @@ space		[ \t\r\n]
 class { return CLASS; }
 private { return PRIVATE; }
 public { return PUBLIC; }
-int { return INT; }
+int { return INTTYPE; }
+
+	/* miscellaneous */
+. { printf("Mystery character '%c'\n", *yytext); }
 
 %%
 	/* c code */
