@@ -21,10 +21,10 @@ space		[ \t\r\n]
 {space} {}
 
 	/* keywords */
-class { return CLASS; }
-private { return PRIVATE; }
-public { return PUBLIC; }
-int { return INTTYPE; }
+"class" { return CLASS; }
+"private" { return PRIVATE; }
+"public" { return PUBLIC; }
+"int" { return INTTYPE; }
 
 	/* miscellaneous */
 . { printf("Mystery character '%c'\n", *yytext); }
