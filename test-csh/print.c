@@ -9,7 +9,10 @@ int main() {
 	yydebug = 1;
 
 	// fp = fopen("sample.out", "w");
-	yyin = fpen("test-input", "r");
+
+	extern FILE *yyin;
+	yyin = fopen("test-input", "r");
+	init();
 
 	if (!yyparse())
 		print();
