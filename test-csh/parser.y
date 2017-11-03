@@ -7,6 +7,10 @@
 	void yyerror(char *);
 %}
 %union {
+	struct Program *program;
+	struct Class *_class;
+	struct MainFunc *mainFunc;
+	struct 
 	char *id;
 	int intnum;
 }
@@ -15,8 +19,11 @@
 %token INTTYPE
 %token CLASS PRIVATE PUBLIC
 
-%type<id>	ID
-%type<intnum>	INTNUM
+%type<id>	ID;
+%type<intnum>	INTNUM;
+%type<program>	Program;
+%type<_class>	Class;
+%type<mainFunc>	MainFunc;
 
 %%
 
