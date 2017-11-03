@@ -9,6 +9,8 @@
 	void yyerror(char *);
 %}
 
+%option yylineno
+
 %union {
 	struct Program *program;
 	struct Class *_class;
