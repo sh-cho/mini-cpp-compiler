@@ -18,9 +18,7 @@ space		[ \t\r\n]
 	return INTNUM;
 }
 
-{space} {
-	break;
-}
+{space} {}
 
 	/* keywords */
 class { return CLASS; }
