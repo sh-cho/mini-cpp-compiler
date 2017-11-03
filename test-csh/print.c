@@ -12,7 +12,6 @@ int main() {
 
 	extern FILE *yyin;
 	yyin = fopen("test-input", "r");
-	init();
 
 	if (!yyparse())
 		print();
