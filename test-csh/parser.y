@@ -10,7 +10,6 @@
 	struct Program *program;
 	struct Class *_class;
 	struct MainFunc *mainFunc;
-	struct 
 	char *id;
 	int intnum;
 }
