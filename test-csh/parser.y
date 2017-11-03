@@ -20,7 +20,8 @@
 %token ID
 %token INTNUM
 %token INTTYPE
-%token CLASS PRIVATE PUBLIC
+%token CLASS
+%token PRIVATE PUBLIC
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
