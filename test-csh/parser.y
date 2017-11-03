@@ -9,8 +9,6 @@
 	void yyerror(char *);
 %}
 
-%option yylineno
-
 %union {
 	struct Program *program;
 	struct Class *_class;
@@ -96,6 +94,6 @@ MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 %%
 	/* c code */
 void yyerror(char *s) {
-	// fprintf(stderr, "error: %s\n", s);
-	printf("%d: %s at %s\n", yylineno, s, yytext);
+	fprintf(stderr, "error: %s\n", s);
+	// printf("%d: %s at %s\n", yylineno, s, yytext);
 }
