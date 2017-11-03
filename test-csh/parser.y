@@ -23,6 +23,7 @@
 %type<intnum>	INTNUM;
 %type<program>	Program;
 %type<_class>	Class;
+%type<_class>	ClassList;
 %type<mainFunc>	MainFunc;
 
 %%
