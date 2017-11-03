@@ -4,6 +4,8 @@
 	#include "AST-test.h"
 	#include "print.h"
 
+	int yylex();
+	int yyparse();
 	void yyerror(char *);
 %}
 
