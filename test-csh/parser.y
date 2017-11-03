@@ -1,11 +1,12 @@
-	/* dec */
 %{
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include "AST-test.h"
+	#include "print.h"
 
 	void yyerror(char *);
 %}
+
 %union {
 	struct Program *program;
 	struct Class *_class;
@@ -13,6 +14,7 @@
 	char *id;
 	int intnum;
 }
+
 %token ID
 %token INTNUM
 %token INTTYPE
