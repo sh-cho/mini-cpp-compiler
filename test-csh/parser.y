@@ -21,7 +21,7 @@
 %token INTNUM
 %token INTTYPE
 %token CLASS
-%token PRIVATE PUBLIC
+%empty PRIVATE PUBLIC
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
@@ -90,6 +90,7 @@ MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 			$$ = new_main;
 		}
 	;
+
 
 %%
 	/* c code */
