@@ -51,9 +51,14 @@
 	char *id;
 	int intnum;
 	float floatnum;
+	char *addiop;
+	char *multop;
+	char *relaop;
+	char *eqltop;
 }
 
 %token <intnum>INTNUM <floatnum>FLOATNUM
+%token <op> UNOP ADDIOP MULTOP RELAOP EQLTOP
 %token CLASS
 %token DO
 %token ELSE
@@ -105,7 +110,7 @@
 %type <relaOp> RelaOp
 %type <eqltOp> EqltOp
 
-%right ASGNOP
+%right '='
 %left EQLTOP
 %left RELAOP
 %left ADDIOP
@@ -860,14 +865,14 @@ UnOp: UNOP
 AddiOp: ADDIOP
 		{
 			struct AddiOp *addiOp = (struct AddiOp*)malloc(sizeof(struct AddiOp));
-			addiOp->e = (($1=='+')?ePlus:eMinus);
+			addiOp->e = ((strcmp($1, "+")==0)?ePlus:eMinus);
 			$$ = addiOp;
 		}
 	;
 MultOp: MULTOP
 		{
 			struct MultOp *multOp = (struct MultOp*)malloc(sizeof(struct MultOp));
-			multOp->e = (($1=='*')?eMul:eDiv);
+			multOp->e = ((strcmp($1, "*")==0)?eMul:eDiv);
 			$$ = multOp;
 		}
 	;
@@ -877,7 +882,7 @@ RelaOp: RELAOP
 			if (strlen($1)==2) {
 				relaOp->e = ((strcmp($1, ">=")==0)?eGE:eLE);
 			} else {
-				relaOp->e = (($1=='>')?eGT:eLT);
+				relaOp->e = ((strcmp($1, ">")==0)?eGT:eLT);
 			}
 			$$ = relaOp;
 		}

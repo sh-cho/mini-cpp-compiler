@@ -8,7 +8,6 @@ addiop		[\+\-]
 multop		[\*\/]
 relaop		("<="|">="|"<"|">")
 eqltop		("=="|"!=")
-asgnop		"="
 id			[A-Za-z_][A-Za-z0-9_]*
 intnum		[0-9]+
 floatnum	[0-9]+.[0-9]+
@@ -29,27 +28,28 @@ special		[\(\)\{\}\[\]\,\.\=\;\:]
 
 {addiop} {
 	//TODO
+	yylval.addiop = strdup(yytext);
 	return ADDIOP;
 }
 
 {multop} {
 	//TODO
+	yylval.addiop = strdup(yytext);
 	return MULTOP;
 }
 
 {relaop} {
 	//TODO
+	yylval.addiop = strdup(yytext);
 	return RELAOP;
 }
 
 {eqltop} {
 	//TODO
+	yylval.addiop = strdup(yytext);
 	return EQLTOP;
 }
 
-{asgnop} {
-	return ASGNOP;
-}
 
 	/*--------------------------------------------------------------------
 	 * 
