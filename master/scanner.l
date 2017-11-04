@@ -2,7 +2,7 @@
 %{
 	#include "parser.tab.h"
 %}
-
+%option noyywrap
 	/* patterns */
 unop		"-"
 addiop		[+-]
