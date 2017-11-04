@@ -17,7 +17,11 @@ space		[ \t\r\n]
 
 
 %%
-	/* patterns & actions */
+	/*--------------------------------------------------------------------
+	 * 
+	 * patterns & actions
+	 * 
+	 *------------------------------------------------------------------*/
 {unop} {
 	return UNOP;
 }
@@ -42,6 +46,64 @@ space		[ \t\r\n]
 	return EQLTOP;
 }
 
+{asgnop} {
+	return ASGNOP;
+}
+
+	/*--------------------------------------------------------------------
+	 * 
+	 * keywords
+	 * 
+	 *------------------------------------------------------------------*/
+class {
+	return CLASS;
+}
+
+do {
+	return DO;
+}
+
+else {
+	return ELSE;
+}
+
+float {
+	return FLOAT;
+}
+
+for {
+	return FOR;
+}
+
+int {
+	return INT;
+}
+
+main {
+	return MAIN;
+}
+
+private {
+	return PRIVATE;
+}
+
+public {
+	return PUBLIC;
+}
+
+return {
+	return RETURN;
+}
+
+while {
+	return WHILE;
+}
+
+	/*--------------------------------------------------------------------
+	 * 
+	 * else
+	 * 
+	 *------------------------------------------------------------------*/
 {id} {
 	//TODO
 	return ID;
