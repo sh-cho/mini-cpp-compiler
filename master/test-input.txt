@@ -1,4 +1,5 @@
 class a {
+private :
 	int bbb;
 	void print();
 }
