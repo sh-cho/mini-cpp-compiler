@@ -1,5 +1,5 @@
 TARGET = mini-gcc
-OBJECTS = lex.yy.c parser.tab.c parser.tab.h parser.output
+OBJECTS = lex.yy.c parser.tab.c parser.tab.h
 
 $(TARGET) : $(OBJECTS)
 	gcc -o $@ print.c $^ -lfl -g
@@ -11,4 +11,4 @@ lex.yy.c : scanner.l parser.tab.h
 	flex -d $<
 
 clean:
-	rm $(OBJECTS) $(TARGET)
+	rm $(OBJECTS) $(TARGET) parser.output
