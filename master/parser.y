@@ -17,11 +17,11 @@
 %token CLASS
 %token DO
 %token ELSE
-%token FLOAT
 %token FOR
 %token ID
 %token IF
-%token INT
+%token FLOATTYPE
+%token INTTYPE
 %token MAIN
 %token PRIVATE
 %token PUBLIC
@@ -116,8 +116,8 @@ Param: Type Ident {}
 Ident: ID {}
 	| ID '[' INTNUM ']' {}
 	;
-Type: INT {}
-	| FLOAT {}
+Type: INTTYPE {}
+	| FLOATTYPE {}
 	| ID {}
 	;
 
