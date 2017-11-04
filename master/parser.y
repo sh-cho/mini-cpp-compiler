@@ -283,21 +283,21 @@ VarDeclList: VarDecl
 			$$ = $2;
 		}
 	;
-MethodDeclList: FuncDecl
+MethodDeclList: MethodDecl
 		{
 			$$ = $1;
 		}
-	| MethodDeclList FuncDecl
+	| MethodDeclList MethodDecl
 		{
 			$2->prev = $1;
 			$$ = $2;
 		}
 	;
-MethodDefList: FuncDef
+MethodDefList: MethodDef
 		{
 			$$ = $1;
 		}
-	| MethodDefList FuncDef
+	| MethodDefList MethodDef
 		{
 			$2->prev = $1;
 			$$ = $2;
@@ -335,7 +335,7 @@ VarDecl: Type Ident ';'
 			$$ = vardecl;
 		}
 	;
-FuncDecl: Type ID '(' ')' ';'
+MethodDecl: Type ID '(' ')' ';'
 		{
 			// == MethodDecl
 			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(struct MethodDecl);
@@ -357,7 +357,7 @@ FuncDecl: Type ID '(' ')' ';'
 			$$ = methodDecl;
 		}
 	;
-FuncDef: Type ID '(' ')' CompoundStmt
+MethodDef: Type ID '(' ')' CompoundStmt
 		{
 			struct MethodDef *methodDef = (struct MethodDef *)malloc(sizeof(struct MethodDef));
 
