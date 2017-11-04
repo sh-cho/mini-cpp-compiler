@@ -5,7 +5,7 @@
 	/* patterns */
 id			[a-zA-Z_][a-zA-Z0-9_]*
 intnum		[0-9]+
-space		[ \t\r\n]+
+space		[ \t\n]+
 
 %%
 
