@@ -27,15 +27,10 @@ void dfs() {
 		return;
 	}
 
-	if (head->_class == NULL) {
-		printf("  *** There is no Class\n");
-	} else {
-		printf("  *** Class exists\n");
+
+	if (head->_class != NULL) {
 	}
 
-	if (head->mainFunc == NULL) {
-		printf("  *** there is no main\n");
-	} else {
-		printf("  *** main exists\n");
+	if (head->mainFunc != NULL) {
 	}
 }

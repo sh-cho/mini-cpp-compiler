@@ -5,6 +5,6 @@
 
 struct Program *head;
 
-void print();
+void dfs();
 
 #endif
