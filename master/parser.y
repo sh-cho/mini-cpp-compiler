@@ -715,7 +715,10 @@ OperExpr: UNOP Expr /*%prec UMINUS*/
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eAddi;
-			operExpr->type.addi = $2;
+			struct AddiOp *addiOp = (struct AddiOp*)malloc(sizeof(struct AddiOp));
+
+			operExpr->type.addi = addiOp;
+			operExpr->type.addi.e = eAddi;
 			operExpr->type.addi->lhs = $1;
 			operExpr->type.addi->rhs = $3;
 			$$ = operExpr;
@@ -724,7 +727,10 @@ OperExpr: UNOP Expr /*%prec UMINUS*/
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eMult;
-			operExpr->type.mult = $2;
+			struct MultOp *multOp = (struct MultOp*)malloc(sizeof(struct MultOp));
+
+			operExpr->type.mult = multOp;
+			operExpr->type.mult.e = eMult;
 			operExpr->type.mult->lhs = $1;
 			operExpr->type.mult->rhs = $3;
 			$$ = operExpr;
@@ -733,7 +739,10 @@ OperExpr: UNOP Expr /*%prec UMINUS*/
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eRela;
-			operExpr->type.rela = $2;
+			struct RelaOp *relaOp = (struct RelaOp*)malloc(sizeof(struct RelaOp));
+
+			operExpr->type.rela = relaOp;
+			operExpr->type.rela.e = eRela;
 			operExpr->type.rela->lhs = $1;
 			operExpr->type.rela->rhs = $3;
 			$$ = operExpr;
@@ -742,7 +751,10 @@ OperExpr: UNOP Expr /*%prec UMINUS*/
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eEqlt;
-			operExpr->type.eqlt = $2;
+			struct EqltOp *eqltOp = (struct EqltOp*)malloc(sizeof(struct EqltOp));
+
+			operExpr->type.eqlt = eqltOp;
+			operExpr->type.eqlt.e = eEqlt;
 			operExpr->type.eqlt->lhs = $1;
 			operExpr->type.eqlt->rhs = $3;
 			$$ = operExpr;
