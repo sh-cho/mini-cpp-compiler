@@ -84,7 +84,7 @@ Class: CLASS ID '{' '}'
 			printf("   ***** 1 \n");
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
-			new_class->mem1 = $4;
+			//new_class->mem1 = $4;
 			//new_class->mem1 = $6;
 			$$ = new_class;
 		}
