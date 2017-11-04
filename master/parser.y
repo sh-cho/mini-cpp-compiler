@@ -1,10 +1,12 @@
-	/* declarations */
 %{
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include "AST.h"
 
 	void yyerror(char *);
+
+	extern int yylineno;
+	extern char* yytext;
 %}
 
 %union {
@@ -195,5 +197,6 @@ ArgList: Expr {}
 %%
 	/* c code */
 void yyerror(char *s) {
-	fprintf(stderr, "error: %s\n", s);
+	// fprintf(stderr, "error: %s\n", s);
+	fprintf(stderr, "%d: error: '%s' at '%s', yylval=%u\n", yylineno, s, yytext, yylval);
 }
