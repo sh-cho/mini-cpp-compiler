@@ -12,7 +12,6 @@ space		[ \t\r\n]+
 	/* keywords */
 "class" { return CLASS; }
 "private" { return PRIVATE; }
-"public" { return PUBLIC; }
 "int" { return INTTYPE; }
 
 	/* patterns */
