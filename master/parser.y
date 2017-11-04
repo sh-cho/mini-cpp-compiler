@@ -51,6 +51,7 @@
 	char *id;
 	int intnum;
 	float floatnum;
+
 	char *addiop;
 	char *multop;
 	char *relaop;
@@ -58,7 +59,8 @@
 }
 
 %token <intnum>INTNUM <floatnum>FLOATNUM
-%token <op> UNOP ADDIOP MULTOP RELAOP EQLTOP
+%token UNOP
+%token <addiop>ADDIOP <multop>MULTOP <relaop>RELAOP <eqltop>EQLTOP
 %token CLASS
 %token DO
 %token ELSE
@@ -345,7 +347,7 @@ VarDecl: Type Ident ';'
 MethodDecl: Type ID '(' ')' ';'
 		{
 			// == MethodDecl
-			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(struct MethodDecl);
+			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(sizeof(struct MethodDecl));
 
 			methodDecl->id = $2;
 			methodDecl->type = $1;
@@ -355,7 +357,7 @@ MethodDecl: Type ID '(' ')' ';'
 		}
 	| Type ID '(' ParamList ')' ';'
 		{
-			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(struct MethodDecl);
+			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(sizeof(struct MethodDecl));
 
 			methodDecl->id = $2;
 			methodDecl->type = $1;
@@ -618,13 +620,13 @@ AssignStmt: RefVarExpr '=' Expr ';'
 		{
 			struct AssignStmt *assignStmt = (struct AssignStmt*)malloc(sizeof(assignStmt));
 			assignStmt->refVarExpr = $1;
-			assignStmt->Expr = $3;
+			assignStmt->expr = $3;
 			$$ = assignStmt;
 		}
 	;
 RetStmt: RETURN ';'
 		{
-			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(RetStmt));
+			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(struct RetStmt));
 			retStmt->expr = NULL;
 			$$ = retStmt;
 		}
@@ -850,8 +852,10 @@ ArgList: Expr
 		}
 	| ArgList ',' Expr
 		{
-			$3->prev = $1;
-			$$ = $3;
+			struct Arg *arg = (struct Arg*)malloc(sizeof(struct Arg));
+			arg->expr = $3;
+			arg->prev = $1;
+			$$ = arg;
 		}
 	;
 
