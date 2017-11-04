@@ -10,9 +10,9 @@ space		[ \t\n]+
 %%
 
 	/* keywords */
-"class" { return CLASS; }
-"private" { return PRIVATE; }
-"int" { return INTTYPE; }
+class { return CLASS; }
+private { return PRIVATE; }
+int { return INTTYPE; }
 
 	/* patterns */
 {id} {
