@@ -106,17 +106,19 @@ while {
 	 * 
 	 *------------------------------------------------------------------*/
 {id} {
-	//TODO
+	yylval.id = strdup(yytext);
 	return ID;
 }
 
 {intnum} {
 	//TODO
+	yylval.intnum = atoi(yytext);
 	return INTNUM;
 }
 
 {floatnum} {
 	//TODO
+	yylval.floatnum = atof(yytext);
 	return FLOATNUM;
 }
 

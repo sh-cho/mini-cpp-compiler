@@ -69,6 +69,9 @@
 %token UNOP
 %token WHILE
 
+%type<id>	ID
+%type<intnum>	INTNUM
+
 %type <prog> Program
 %type <_class> ClassList Class
 %type <mainFunc> MainFunc
@@ -76,7 +79,7 @@
 %type <varDecl> VarDeclList VarDecl
 %type <methodDecl> MethodDeclList MethodDecl
 %type <methodDef> MethodDefList MethodDef
-%type <classMethodDef> ClassMethodDefList ClassMethodDef
+%type <classMethodDef> ClassMethodDef
 %type <param> ParamList Param
 %type <ident> Ident
 %type <type> Type
