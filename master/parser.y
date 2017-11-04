@@ -1,6 +1,7 @@
 %{
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include <string.h>
 	#include "AST.h"
 	#include "print.h"
 
@@ -107,6 +108,7 @@
 %left RELAOP
 %left ADDIOP
 %left MULTOP
+%right UNOP
 
 %%
 	/* rules & actions */
@@ -703,7 +705,7 @@ Expr: OperExpr
 			$$ = expr;
 		}
 	;
-OperExpr: UNOP Expr /*%prec UMINUS*/
+OperExpr: UnOp Expr /*%prec UMINUS*/
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eUn;
@@ -711,50 +713,42 @@ OperExpr: UNOP Expr /*%prec UMINUS*/
 			operExpr->type.un->expr = $2;
 			$$ = operExpr;
 		}
-	| Expr ADDIOP Expr
+	| Expr AddiOp Expr
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eAddi;
-			struct AddiOp *addiOp = (struct AddiOp*)malloc(sizeof(struct AddiOp));
 
-			operExpr->type.addi = addiOp;
-			operExpr->type.addi.e = eAddi;
+			operExpr->type.addi = $2;
 			operExpr->type.addi->lhs = $1;
 			operExpr->type.addi->rhs = $3;
 			$$ = operExpr;
 		}
-	| Expr MULTOP Expr
+	| Expr MultOp Expr
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eMult;
-			struct MultOp *multOp = (struct MultOp*)malloc(sizeof(struct MultOp));
 
-			operExpr->type.mult = multOp;
-			operExpr->type.mult.e = eMult;
+			operExpr->type.mult = $2;
 			operExpr->type.mult->lhs = $1;
 			operExpr->type.mult->rhs = $3;
 			$$ = operExpr;
 		}
-	| Expr RELAOP Expr
+	| Expr RelaOp Expr
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eRela;
-			struct RelaOp *relaOp = (struct RelaOp*)malloc(sizeof(struct RelaOp));
 
-			operExpr->type.rela = relaOp;
-			operExpr->type.rela.e = eRela;
+			operExpr->type.rela = $2;
 			operExpr->type.rela->lhs = $1;
 			operExpr->type.rela->rhs = $3;
 			$$ = operExpr;
 		}
-	| Expr EQLTOP Expr
+	| Expr EqltOp Expr
 		{
 			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
 			operExpr->e = eEqlt;
-			struct EqltOp *eqltOp = (struct EqltOp*)malloc(sizeof(struct EqltOp));
 
-			operExpr->type.eqlt = eqltOp;
-			operExpr->type.eqlt.e = eEqlt;
+			operExpr->type.eqlt = $2;
 			operExpr->type.eqlt->lhs = $1;
 			operExpr->type.eqlt->rhs = $3;
 			$$ = operExpr;
@@ -854,6 +848,45 @@ ArgList: Expr
 		}
 	;
 
+UnOp: UNOP
+		{
+			struct UnOp *unOp = (struct UnOp*)malloc(sizeof(struct UnOp));
+			unOp->e = eNegative;
+			$$ = unOp;
+		}
+	;
+AddiOp: ADDIOP
+		{
+			struct AddiOp *addiOp = (struct AddiOp*)malloc(sizeof(struct AddiOp));
+			addiOp->e = (($1=='+')?ePlus:eMinus);
+			$$ = addiOp;
+		}
+	;
+MultOp: MULTOP
+		{
+			struct MultOp *multOp = (struct MultOp*)malloc(sizeof(struct MultOp));
+			multOp->e = (($1=='*')?eMul:eDiv);
+			$$ = multOp;
+		}
+	;
+RelaOp: RELAOP
+		{
+			struct RelaOp *relaOp = (struct RelaOp*)malloc(sizeof(struct RelaOp));
+			if (strlen($1)==2) {
+				relaOp->e = ((strcmp($1, ">=")==0)?eGE:eLE);
+			} else {
+				relaOp->e = (($1=='>')?eGT:eLT);
+			}
+			$$ = relaOp;
+		}
+	;
+EqltOp: EQLTOP
+		{
+			struct EqltOp *eqltOp = (struct EqltOp*)malloc(sizeof(struct EqltOp));
+			eqltOp->e = ((strcmp($1, "==")==0)?eEQ:eNE);
+			$$ = eqltOp;
+		}
+	;
 
 
 %%

@@ -59,7 +59,7 @@ typedef enum
 typedef enum
 {eMul, eDiv} Mult_e;
 typedef enum
-{eLT, eGT, eLE, eGE} Rela_e;
+{eLT, eGT, eLE, eGE} Rela_e;	//less than, greater than, less equal, greater equal
 typedef enum
 {eEQ, eNE} Eqlt_e;
 
