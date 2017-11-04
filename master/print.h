@@ -3,4 +3,6 @@
 
 #include "AST.h"
 
+void print();
+
 #endif
