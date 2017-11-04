@@ -20,14 +20,13 @@
 	int intnum;
 }
 
-%token ID
-%token INTNUM
 %token INTTYPE
 %token CLASS
 %token PRIVATE
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
+
 %type<program>	Program;
 %type<_class>	Class;
 %type<_class>	ClassList;
