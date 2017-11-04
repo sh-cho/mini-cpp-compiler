@@ -1,8 +1,8 @@
 TARGET = mini-gcc
-OBJECTS = lex.yy.c parser.tab.c parser.tab.h print.c
+OBJECTS = lex.yy.c parser.tab.c parser.tab.h
 
 $(TARGET) : $(OBJECTS)
-	gcc -o $@ $^ -lfl -g
+	gcc -o $@ print.c $^ -lfl -g
 
 parser.tab.c parser.tab.h : parser.y
 	bison -d $^
