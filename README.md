@@ -25,3 +25,4 @@ using flex, bison
 	--> reduce conflict?
 	1. AST.h --> ClassMethodDef에 Type 없음
 	1. FuncDef, FuncDecl --> MethodDef, MethodDecl로 수정
+	1. Arg->ArgList 수정

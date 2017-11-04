@@ -78,7 +78,7 @@
 %type <varDecl> VarDeclList VarDecl
 %type <methodDecl> MethodDeclList MethodDecl
 %type <methodDef> MethodDefList MethodDef
-%type <classMethodDef> ClassMethodDef
+%type <classMethodDef> ClassMethodList ClassMethodDef
 %type <param> ParamList Param
 %type <ident> Ident
 %type <type> Type
@@ -220,7 +220,7 @@ Member: VarDeclList MethodDeclList MethodDefList
 
 			new_mem->varDecl = $1;
 			new_mem->methodDecl = NULL;
-			new_mem->methodDef = $3;
+			new_mem->methodDef = $2;
 
 			$$ = new_mem;
 		}
@@ -239,8 +239,8 @@ Member: VarDeclList MethodDeclList MethodDefList
 			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
 
 			new_mem->varDecl = NULL;
-			new_mem->methodDecl = $2;
-			new_mem->methodDef = $3;
+			new_mem->methodDecl = $1;
+			new_mem->methodDef = $2;
 
 			$$ = new_mem;
 		}
@@ -249,7 +249,7 @@ Member: VarDeclList MethodDeclList MethodDefList
 			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
 
 			new_mem->varDecl = NULL;
-			new_mem->methodDecl = $2;
+			new_mem->methodDecl = $1;
 			new_mem->methodDef = NULL;
 
 			$$ = new_mem;
@@ -260,7 +260,7 @@ Member: VarDeclList MethodDeclList MethodDefList
 
 			new_mem->varDecl = NULL;
 			new_mem->methodDecl = NULL;
-			new_mem->methodDef = $3;
+			new_mem->methodDef = $1;
 
 			$$ = new_mem;
 		}
