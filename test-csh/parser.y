@@ -70,7 +70,7 @@ ClassList: Class
 		}
 	;
 
-Class: CLASS ID '{' PRIVATE ':' INTNUM ';' '}'
+Class: CLASS ID '{' "private" ':' INTNUM ';' '}'
 		{
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
