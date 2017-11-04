@@ -5,15 +5,15 @@
 	/* patterns */
 id			[a-zA-Z_][a-zA-Z0-9_]*
 intnum		[0-9]+
-space		[ \t\r\n]
+space		[ \t\r\n]+
 
 %%
 
 	/* keywords */
-class { return CLASS; }
-private { return PRIVATE; }
-public { return PUBLIC; }
-int { return INTTYPE; }
+"class" { return CLASS; }
+"private" { return PRIVATE; }
+"public" { return PUBLIC; }
+"int" { return INTTYPE; }
 
 	/* patterns */
 {id} {
@@ -26,7 +26,7 @@ int { return INTTYPE; }
 	return INTNUM;
 }
 
-{space} {}
+{space} ;
 
 	/* miscellaneous */
 . { printf("Mystery character '%c'\n", *yytext); }
