@@ -58,135 +58,135 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc
-	| MainFunc
+Program: ClassList ClassMethodList MainFunc {}
+	| MainFunc {}
 	;
 
-ClassList: Class
-	| ClassList Class
+ClassList: Class {}
+	| ClassList Class {}
 	;
 
-Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}'
-	| CLASS ID '{' PRIVATE ':' Member '}'
-	| CLASS ID '{' PUBLIC ':' Member '}'
+Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}' {}
+	| CLASS ID '{' PRIVATE ':' Member '}' {}
+	| CLASS ID '{' PUBLIC ':' Member '}' {}
 	;
-Member: VarDeclList MethodDeclList MethodDefList
+Member: VarDeclList MethodDeclList MethodDefList {}
 	//
 	;
 
-VarDeclList: VarDecl
-	| VarDeclList VarDecl
+VarDeclList: VarDecl {}
+	| VarDeclList VarDecl {}
 	;
-MethodDeclList: FuncDecl
-	| MethodDeclList FuncDecl
+MethodDeclList: FuncDecl {}
+	| MethodDeclList FuncDecl {}
 	;
-MethodDefList: FuncDef
-	| MethodDefList FuncDef
-	;
-
-VarDecl: Type Ident ';'
-	| Type Ident '=' INTNUM ';'
-	| Type Ident '=' FLOATNUM ';'
-	;
-FuncDecl: Type ID '(' ')' ';'
-	| Type ID '(' ParamList ')' ';'
-	;
-FuncDef: Type ID '(' ')' CompoundStmt
-	| Type ID '(' ParamList ')' CompoundStmt
+MethodDefList: FuncDef {}
+	| MethodDefList FuncDef {}
 	;
 
-ClassMethodList: ClassMethodDef
-	| ClassMethodDef ClassMethodList
+VarDecl: Type Ident ';' {}
+	| Type Ident '=' INTNUM ';' {}
+	| Type Ident '=' FLOATNUM ';' {}
 	;
-ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt
-	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt
+FuncDecl: Type ID '(' ')' ';' {}
+	| Type ID '(' ParamList ')' ';' {}
 	;
-
-MainFunc: INT MAIN '(' ')' CompoundStmt
-	;
-
-ParamList: Param
-	| ParamList ',' Param
-	;
-Param: Type Ident
+FuncDef: Type ID '(' ')' CompoundStmt {}
+	| Type ID '(' ParamList ')' CompoundStmt {}
 	;
 
-Ident: ID
-	| ID '[' INTNUM ']'
+ClassMethodList: ClassMethodDef {}
+	| ClassMethodDef ClassMethodList {}
 	;
-Type: INT
-	| FLOAT
-	| ID
-	;
-
-CompoundStmt: '{' VarDeclList StmtList '}'
-	| '{' VarDeclList '}'
-	| '{' StmtList '}'
-	| '{' '}'
+ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt {}
+	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt {}
 	;
 
-StmtList: Stmt
-	| StmtList Stmt
+MainFunc: INT MAIN '(' ')' CompoundStmt {}
 	;
 
-Stmt: ExprStmt
-	| AssignStmt
-	| RetStmt
-	| WhileStmt
-	| DoStmt
-	| ForStmt
-	| IfStmt
-	| CompoundStmt
-	| ';'
+ParamList: Param {}
+	| ParamList ',' Param {}
+	;
+Param: Type Ident {}
 	;
 
-ExprStmt: Expr
+Ident: ID {}
+	| ID '[' INTNUM ']' {}
 	;
-AssignStmt: RefVarExpr '=' Expr ';'
-	;
-RetStmt: RETURN ';'
-	| RETURN Expr ';'
-	;
-WhileStmt: WHILE '(' Expr ')' Stmt
-	;
-DoStmt: DO Stmt WHILE '(' Expr ')' ';'
-	;
-ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt
-	;
-IfStmt: IF '(' Expr ')' Stmt
-	| IF '(' Expr ')' Stmt ELSE Stmt
+Type: INT {}
+	| FLOAT {}
+	| ID {}
 	;
 
-Expr: OperExpr
-	| RefExpr
-	| INTNUM
-	| FLOATNUM
-	;
-OperExpr: UNOP Expr %prec UMINUS
-	| Expr ADDIOP Expr
-	| Expr MULTOP Expr
-	| Expr RELAOP Expr
-	| Expr EQLTOP Expr
-	| '(' Expr ')'
-	;
-RefExpr: RefVarExpr
-	| RefCallExpr
-	;
-RefVarExpr: IdentExpr
-	| RefExpr '.' IdentExpr
-	;
-RefCallExpr: CallExpr
-	| RefExpr '.' CallExpr
-	;
-IdentExpr: ID '[' Expr ']'
-	| ID
-	;
-CallExpr: ID '(' ')'
-	| ID '(' ArgList ')'
+CompoundStmt: '{' VarDeclList StmtList '}' {}
+	| '{' VarDeclList '}' {}
+	| '{' StmtList '}' {}
+	| '{' '}' {}
 	;
 
-ArgList: Expr
-	| ArgList ',' Expr
+StmtList: Stmt {}
+	| StmtList Stmt {}
+	;
+
+Stmt: ExprStmt {}
+	| AssignStmt {}
+	| RetStmt {}
+	| WhileStmt {}
+	| DoStmt {}
+	| ForStmt {}
+	| IfStmt {}
+	| CompoundStmt {}
+	| ';' {}
+	;
+
+ExprStmt: Expr {}
+	;
+AssignStmt: RefVarExpr '=' Expr ';' {}
+	;
+RetStmt: RETURN ';' {}
+	| RETURN Expr ';' {}
+	;
+WhileStmt: WHILE '(' Expr ')' Stmt {}
+	;
+DoStmt: DO Stmt WHILE '(' Expr ')' ';' {}
+	;
+ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt {}
+	;
+IfStmt: IF '(' Expr ')' Stmt {}
+	| IF '(' Expr ')' Stmt ELSE Stmt {}
+	;
+
+Expr: OperExpr {}
+	| RefExpr {}
+	| INTNUM {}
+	| FLOATNUM {}
+	;
+OperExpr: UNOP Expr %prec UMINUS {}
+	| Expr ADDIOP Expr {}
+	| Expr MULTOP Expr {}
+	| Expr RELAOP Expr {}
+	| Expr EQLTOP Expr {}
+	| '(' Expr ')' {}
+	;
+RefExpr: RefVarExpr {}
+	| RefCallExpr {}
+	;
+RefVarExpr: IdentExpr {}
+	| RefExpr '.' IdentExpr {}
+	;
+RefCallExpr: CallExpr {}
+	| RefExpr '.' CallExpr {}
+	;
+IdentExpr: ID '[' Expr ']' {}
+	| ID {}
+	;
+CallExpr: ID '(' ')' {}
+	| ID '(' ArgList ')' {}
+	;
+
+ArgList: Expr {}
+	| ArgList ',' Expr {}
 	;
 
 
