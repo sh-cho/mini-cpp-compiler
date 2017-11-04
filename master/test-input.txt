@@ -1,5 +1,10 @@
+class abc {
+private :
+	int a = 3;
+	float b = 4;
+}
+
 int main() {
 	int i;
-
 	return 0;
 }

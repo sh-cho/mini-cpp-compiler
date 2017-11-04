@@ -1,0 +1,72 @@
+class dog {
+private:
+
+   int a;
+   int b;
+   float d;
+   float c;
+public : 
+   int intplus(int _a, int _b);
+   float floatplus(float _c, float _d);
+};
+int dog::intplus(int _a, int _b)
+{
+   a = _a;
+   b = _b;
+   return a + b;
+}
+float dog::floatplus(float _c, float _d)
+{
+   c = _c;
+   d = _d;
+   return c + d;
+}
+
+int main()
+{
+   dog dg;
+   int a;
+   int b;
+   int c;
+   int d;
+   int e = 0;
+
+   for (int i = 0; i < 3; i++)
+   {
+      e = e + i;
+   }
+   if (dg.intplus(3, 4) < 10)
+   {
+      a = 0;
+   }
+   else
+   {
+      a = 1;
+   }
+   if (dg.intplus(3, 4) > 3)
+   {
+      b = 0;
+   }
+   else
+   {
+      b = 1;
+   }
+   if (dg.floatplus(3.3,4.3) >= 7)
+   {
+      c = 0;
+   }
+   else
+   {
+      c = 1;
+   }
+   if (dg.floatplus(3.2, 2.2) <= 7)
+   {
+      d = 0;
+   }
+   else
+   {
+      d = 1;
+   }
+   
+   return 0;
+}
