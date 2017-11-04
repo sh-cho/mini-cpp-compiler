@@ -85,6 +85,7 @@ MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 	;
 
 PRIVATE: %empty {}
+	;
 
 %%
 	/* c code */
