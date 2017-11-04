@@ -13,7 +13,15 @@
 
 %token INTNUM FLOATNUM
 %token CLASS
+
 %type <prog> Program
+
+%right ASGNOP
+%left EQLTOP
+%left RELAOP
+%left ADDIOP
+%left MULTOP
+%right UMINUS
 
 %%
 	/* rules & actions */
@@ -37,17 +45,20 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc	{}
-	| MainFunc								{}
+Program: ClassList ClassMethodList MainFunc
+	| MainFunc
 	;
 
 ClassList: Class
 	| ClassList Class
 	;
 
-Class:
+Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}'
+	| CLASS ID '{' PRIVATE ':' Member '}'
+	| CLASS ID '{' PUBLIC ':' Member '}'
 	;
-Member:
+Member: VarDeclList MethodDeclList MethodDefList
+	//
 	;
 
 VarDeclList: VarDecl
@@ -62,24 +73,29 @@ MethodDefList: FuncDef
 
 VarDecl: Type Ident ';'
 	| Type Ident '=' INTNUM ';'
-	| Type Ident '=' FLOATNUM ';'	//맞는지 확인
+	| Type Ident '=' FLOATNUM ';'
 	;
-FuncDecl:
+FuncDecl: Type ID '(' ')' ';'
+	| Type ID '(' ParamList ')' ';'
 	;
-FuncDef:
-	;
-
-ClassMethodList:
-	;
-ClassMethodDef:
+FuncDef: Type ID '(' ')' CompoundStmt
+	| Type ID '(' ParamList ')' CompoundStmt
 	;
 
-MainFunc:
+ClassMethodList: ClassMethodDef
+	| ClassMethodDef ClassMethodList
+	;
+ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt
+	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt
 	;
 
-ParamList:
+MainFunc: INT MAIN '(' ')' CompoundStmt
 	;
-Param:
+
+ParamList: Param
+	| ParamList ',' Param
+	;
+Param: Type Ident
 	;
 
 Ident: ID
@@ -90,10 +106,14 @@ Type: INT
 	| ID
 	;
 
-CompundStmt:
+CompoundStmt: '{' VarDeclList StmtList '}'
+	| '{' VarDeclList '}'
+	| '{' StmtList '}'
+	| '{' '}'
 	;
 
-StmtList:
+StmtList: Stmt
+	| StmtList Stmt
 	;
 
 Stmt: ExprStmt
@@ -109,36 +129,51 @@ Stmt: ExprStmt
 
 ExprStmt: Expr
 	;
-AssignStmt: RefVarExpr '=' Expr
+AssignStmt: RefVarExpr '=' Expr ';'
 	;
-RetStmt: RETURN
-	| RETURN Expr
+RetStmt: RETURN ';'
+	| RETURN Expr ';'
 	;
 WhileStmt: WHILE '(' Expr ')' Stmt
 	;
-DoStmt: DO Stmt WHILE '(' Expr ')'
+DoStmt: DO Stmt WHILE '(' Expr ')' ';'
 	;
-ForStmt: FOR '(' ';' ';' ')'
+ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt
 	;
-IfStmt:
-	;
-
-Expr:
-	;
-OperExpr:
-	;
-RefExpr:
-	;
-RefVarExpr:
-	;
-RefCallExpr:
-	;
-IdentExpr:
-	;
-CallExpr:
+IfStmt: IF '(' Expr ')' Stmt
+	| IF '(' Expr ')' Stmt ELSE Stmt
 	;
 
-ArgList:
+Expr: OperExpr
+	| RefExpr
+	| INTNUM
+	| FLOATNUM
+	;
+OperExpr: UNOP Expr %prec UMINUS
+	| Expr ADDIOP Expr
+	| Expr MULTOP Expr
+	| Expr RELAOP Expr
+	| Expr EQLTOP Expr
+	| '(' Expr ')'
+	;
+RefExpr: RefVarExpr
+	| RefCallExpr
+	;
+RefVarExpr: IdentExpr
+	| RefExpr '.' IdentExpr
+	;
+RefCallExpr: CallExpr
+	| RefExpr '.' CallExpr
+	;
+IdentExpr: ID '[' Expr ']'
+	| ID
+	;
+CallExpr: ID '(' ')'
+	| ID '(' ArgList ')'
+	;
+
+ArgList: Expr
+	| ArgList ',' Expr
 	;
 
 

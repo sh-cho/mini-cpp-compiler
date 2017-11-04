@@ -9,6 +9,7 @@ addiop		[+-]
 multop		[*/]
 relaop		("<="|">="|"<"|">")
 eqltop		("=="|"!=")
+asgnop		"="
 id			[A-Za-z_][A-Za-z0-9_]*
 intnum		[0-9]+
 floatnum	[0-9]+.[0-9]+
