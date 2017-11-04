@@ -9,8 +9,17 @@ using flex, bison
 - Manual
   - Debug
     1. `flex -d lex.l`, `bison -t -d ayacc.y`
-    2. main에 다음 내용 추가
+    1. main에 다음 내용 추가
     ```c++
     extern int yydebug;
     yydebug = 1;
     ```
+
+- Document
+  - Problems
+    1. ID reduction conflicts
+    ```
+    Type: ID
+    IdentExpr: ID
+    ```
+	--> reduce conflict
