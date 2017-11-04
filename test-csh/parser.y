@@ -20,6 +20,8 @@
 	int intnum;
 }
 
+%token ID
+%token INTNUM
 %token INTTYPE
 %token CLASS
 %token PRIVATE
