@@ -1,1 +1,1 @@
-class class2 { 33 } int main() { abc123 }
+class class2 { } int main() { abc123 }

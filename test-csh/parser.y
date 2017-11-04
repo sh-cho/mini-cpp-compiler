@@ -79,7 +79,7 @@ ClassList: Class
 		}
 	;
 
-Class: CLASS ID '{' INTNUM '}'
+Class: CLASS ID '{' '}'
 		{
 			printf("   ***** 1 \n");
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
