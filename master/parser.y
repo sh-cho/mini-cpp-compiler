@@ -70,7 +70,7 @@
 %token WHILE
 
 %type <prog> Program
-%type <_class> Class
+%type <_class> ClassList
 %type <mainFunc> MainFunc
 %type <member> Member
 %type <varDecl> VarDecl
