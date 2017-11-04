@@ -73,6 +73,7 @@ ClassList: Class
 
 Class: CLASS ID '{' INTNUM '}'
 		{
+			printf("***** class \n");
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
 			new_class->mem1 = $4;
