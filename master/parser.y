@@ -60,8 +60,8 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc {}
-	| MainFunc {}
+Program: ClassList ClassMethodList MainFunc EOF {}
+	| MainFunc EOF {}
 	;
 
 ClassList: Class {}
@@ -74,7 +74,7 @@ Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}' {}
 	;
 Member: VarDeclList MethodDeclList MethodDefList {}
 	| VarDeclList MethodDeclList {}	//110
-	
+
 	//
 	;
 

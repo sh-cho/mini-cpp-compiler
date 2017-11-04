@@ -123,6 +123,9 @@ while {
 	break;
 }
 
+. {
+	return EOF;
+}
 
 
 %%
