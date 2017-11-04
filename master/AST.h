@@ -71,7 +71,7 @@ struct Program {
 };
 
 // ClassList := (Class)+
-// Class := class id { (private : Member)? (public : Member)? }
+// Class := class id { (previate : Member)? (public : Member)? }
 struct Class {
 	char *id;
 	struct Member *priMember;
@@ -87,15 +87,11 @@ struct Member {
 };
 
 // VarDeclList := (VarDecl)+
-// VarDecl := Type Ident (= (intnum|floatnum))? ;
+// VarDecl := Type Ident (= (int|float))? ;
 struct VarDecl {
 	struct Type *type;
 	struct Ident *ident;
-	bool isInt;	// true if type of assigner value is int, else false
-	union {
-		int intnum;
-		int floatnum;
-	} assigner;
+	struct Expr *expr;
 	struct VarDecl *prev;
 };
 
@@ -105,7 +101,7 @@ struct MethodDecl {
 	char *id;
 	struct Type *type;
 	struct Param *param;
-	struct FuncDecl *prev;
+	struct MethodDecl *prev;
 };
 
 // MethodDefList := (MethodDef)+
@@ -121,7 +117,6 @@ struct MethodDef {
 // ClassMethodList := (ClassMethodDef)+
 // ClassMethodDef := Type id :: id ( (ParamList)? ) CompoundStmt
 struct ClassMethodDef {
-	struct Type *type;
 	char *className;
 	char *methodName;
 	struct Param *param;
@@ -332,7 +327,4 @@ struct EqltOp {
 	struct Expr *rhs;
 };
 
-
-
 #endif
-

@@ -1,13 +1,3 @@
-class a {
-private :
-	int bbb;
-	void print();
-}
-
-void a::print() {
-	return;
-}
-
 int main() {
 	return 0;
 }

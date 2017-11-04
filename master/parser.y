@@ -73,6 +73,8 @@ Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}' {}
 	| CLASS ID '{' PUBLIC ':' Member '}' {}
 	;
 Member: VarDeclList MethodDeclList MethodDefList {}
+	| VarDeclList MethodDeclList {}	//110
+	
 	//
 	;
 
