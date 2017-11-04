@@ -117,6 +117,7 @@ struct MethodDef {
 // ClassMethodList := (ClassMethodDef)+
 // ClassMethodDef := Type id :: id ( (ParamList)? ) CompoundStmt
 struct ClassMethodDef {
+	struct Type *type;
 	char *className;
 	char *methodName;
 	struct Param *param;

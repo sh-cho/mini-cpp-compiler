@@ -393,7 +393,7 @@ ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt
 		{
 			struct ClassMethodDef *classMethodDef = (struct ClassMethodDef*)malloc(sizeof(struct ClassMethodDef));
 
-			//TODO: 타입?
+			classMethodDef->type = $1;
 			classMethodDef->className = $2;
 			classMethodDef->methodName = $5;
 			classMethodDef->param = NULL;
@@ -405,7 +405,7 @@ ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt
 		{
 			struct ClassMethodDef *classMethodDef = (struct ClassMethodDef*)malloc(sizeof(struct ClassMethodDef));
 
-			//TODO: 타입?
+			classMethodDef->type = $1;
 			classMethodDef->className = $2;
 			classMethodDef->methodName = $5;
 			classMethodDef->param = $7;
@@ -459,7 +459,10 @@ Ident: ID
 			$$ = ident;
 		}
 	;
-Type: INTTYPE {}
+Type: INTTYPE
+		{
+
+		}
 	| FLOATTYPE {}
 	| ID {}
 	;
