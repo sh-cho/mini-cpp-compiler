@@ -10,7 +10,6 @@
 
 	extern int yylineno;
 	extern char* yytext;
-	extern int yylval;
 %}
 
 %union {
