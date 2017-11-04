@@ -28,7 +28,6 @@
 %token RETURN
 %token UNOP
 %token WHILE
-%token EOF
 
 %type <prog> Program
 
