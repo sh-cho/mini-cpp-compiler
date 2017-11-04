@@ -96,7 +96,7 @@
 %type <refCallExpr> RefCallExpr;
 %type <identExpr> IdentExpr;
 %type <callExpr> CallExpr;
-%type <arg> Arg;
+%type <arg> ArgList;
 %type <unOp> UnOp;
 %type <addiOp> AddiOp;
 %type <multOp> MultOp;
