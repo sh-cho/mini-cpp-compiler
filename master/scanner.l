@@ -68,7 +68,7 @@ else {
 }
 
 float {
-	return FLOAT;
+	return FLOATTYPE;
 }
 
 for {
@@ -76,7 +76,7 @@ for {
 }
 
 int {
-	return INT;
+	return INTTYPE;
 }
 
 main {

@@ -104,7 +104,7 @@ ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt {}
 	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt {}
 	;
 
-MainFunc: INT MAIN '(' ')' CompoundStmt {}
+MainFunc: INTTYPE MAIN '(' ')' CompoundStmt {}
 	;
 
 ParamList: Param {}
