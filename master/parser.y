@@ -96,7 +96,7 @@ FuncDef: Type ID '(' ')' CompoundStmt {}
 	;
 
 ClassMethodList: ClassMethodDef {}
-	| ClassMethodDef ClassMethodList {}
+	| ClassMethodList ClassMethodDef {}
 	;
 ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt {}
 	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt {}
