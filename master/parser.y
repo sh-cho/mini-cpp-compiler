@@ -461,18 +461,62 @@ Ident: ID
 	;
 Type: INTTYPE
 		{
-
+			struct Type *type = (struct Type*)malloc(sizeof(struct Type));
+			type->id = NULL;
+			type->e = eInt;
+			$$ = type;
 		}
-	| FLOATTYPE {}
-	| ID {}
+	| FLOATTYPE
+		{
+			struct Type *type = (struct Type*)malloc(sizeof(struct Type));
+			type->id = NULL;
+			type->e = eFloat;
+			$$ = type;
+		}
+	| ID
+		{
+			struct Type *type = (struct Type*)malloc(sizeof(struct Type));
+			type->id = $1;
+			type->e = eClass;
+			$$ = type;
+		}
 	;
 
-CompoundStmt: '{' VarDeclList StmtList '}' {}
-	| '{' VarDeclList '}' {}
-	| '{' StmtList '}' {}
+CompoundStmt: '{' VarDeclList StmtList '}'
+		{
+			struct CompoundStmt *comp = (struct CompoundStmt*)malloc(sizeof(struct CompoundStmt));
+
+			comp->varDecl = $2;
+			comp->stmt = $3;
+
+			$$ = comp;
+		}
+	| '{' VarDeclList '}'
+		{
+			struct CompoundStmt *comp = (struct CompoundStmt*)malloc(sizeof(struct CompoundStmt));
+
+			comp->varDecl = $2;
+			comp->stmt = NULL;
+
+			$$ = comp;
+		}
+	| '{' StmtList '}'
+		{
+			struct CompoundStmt *comp = (struct CompoundStmt*)malloc(sizeof(struct CompoundStmt));
+
+			comp->varDecl = NULL;
+			comp->stmt = $2;
+
+			$$ = comp;
+		}
 	| '{' '}'
 		{
+			struct CompoundStmt *comp = (struct CompoundStmt*)malloc(sizeof(struct CompoundStmt));
 
+			comp->varDecl = NULL;
+			comp->stmt = NULL;
+
+			$$ = comp;
 		}
 	;
 
@@ -487,60 +531,304 @@ StmtList: Stmt
 		}
 	;
 
-Stmt: ExprStmt {}
-	| AssignStmt {}
-	| RetStmt {}
-	| WhileStmt {}
-	| DoStmt {}
-	| ForStmt {}
-	| IfStmt {}
-	| CompoundStmt {}
-	| ';' {}
+Stmt: ExprStmt
+		{
+			//union
+			//--> union.type 접근해야 함
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eExpr;
+			stmt->type.exprStmt = $1;
+			$$ = stmt;
+		}
+	| AssignStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eAssign;
+			stmt->type.assignStmt = $1;
+			$$ = stmt;
+		}
+	| RetStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eRet;
+			stmt->type.retStmt = $1;
+			$$ = stmt;
+		}
+	| WhileStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eWhile;
+			stmt->type.whileStmt = $1;
+			$$ = stmt;
+		}
+	| DoStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eDo;
+			stmt->type.doStmt = $1;
+			$$ = stmt;
+		}
+	| ForStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eFor;
+			stmt->type.forStmt = $1;
+			$$ = stmt;
+		}
+	| IfStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eIf;
+			stmt->type.ifStmt = $1;
+			$$ = stmt;
+		}
+	| CompoundStmt
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eCompound;
+			stmt->type.compoundStmt = $1;
+			$$ = stmt;
+		}
+	| ';'
+		{
+			struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			stmt->e = eSemi;
+			//stmt->type.exprStmt = $1;
+			$$ = stmt;
+		}
 	;
 
-ExprStmt: Expr {}
+ExprStmt: Expr
+		{
+			struct ExprStmt *exprStmt = (struct ExprStmt*)malloc(sizeof(struct ExprStmt));
+			exprStmt->expr = $1;
+			$$ = exprStmt;
+		}
 	;
-AssignStmt: RefVarExpr '=' Expr ';' {}
+AssignStmt: RefVarExpr '=' Expr ';'
+		{
+			struct AssignStmt *assignStmt = (struct AssignStmt*)malloc(sizeof(assignStmt));
+			assignStmt->refVarExpr = $1;
+			assignStmt->Expr = $3;
+			$$ = assignStmt;
+		}
 	;
-RetStmt: RETURN ';' {}
-	| RETURN Expr ';' {}
+RetStmt: RETURN ';'
+		{
+			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(RetStmt));
+			retStmt->expr = NULL;
+			$$ = retStmt;
+		}
+	| RETURN Expr ';'
+		{
+			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(RetStmt));
+			retStmt->expr = $2;
+			$$ = retStmt;
+		}
 	;
-WhileStmt: WHILE '(' Expr ')' Stmt {}
+WhileStmt: WHILE '(' Expr ')' Stmt
+		{
+			struct WhileStmt *whileStmt = (struct WhileStmt*)malloc(sizeof(struct WhileStmt));
+			whileStmt->cond = $3;
+			whileStmt->body = $5;
+			$$ = whileStmt;
+		}
 	;
-DoStmt: DO Stmt WHILE '(' Expr ')' ';' {}
+DoStmt: DO Stmt WHILE '(' Expr ')' ';'
+		{
+			struct DoStmt *doStmt = (struct DoStmt*)malloc(sizeof(struct DoStmt));
+			doStmt->cond = $5;
+			doStmt->body = $2;
+			$$ = doStmt;
+		}
 	;
-ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt {}
+ForStmt: FOR '(' Expr ';' Expr ';' Expr ')' Stmt
+		{
+			struct ForStmt *forStmt = (struct ForStmt*)malloc(sizeof(struct ForStmt));
+			forStmt->init = $3;
+			forStmt->cond = $5;
+			forStmt->incr = $7;
+			forStmt->body = $9;
+			$$ = forStmt;
+		}
 	;
-IfStmt: IF '(' Expr ')' Stmt {}
-	| IF '(' Expr ')' Stmt ELSE Stmt {}
+IfStmt: IF '(' Expr ')' Stmt
+		{
+			struct IfStmt *ifStmt = (struct IfStmt*)malloc(sizeof(struct IfStmt));
+			ifStmt->cond = $3;
+			ifStmt->ifBody = $5;
+			ifStmt->elseBody = NULL;
+			$$ = ifStmt;
+		}
+	| IF '(' Expr ')' Stmt ELSE Stmt
+		{
+			struct IfStmt *ifStmt = (struct IfStmt*)malloc(sizeof(struct IfStmt));
+			ifStmt->cond = $3;
+			ifStmt->ifBody = $5;
+			ifStmt->elseBody = $7;
+			$$ = ifStmt;
+		}
 	;
 
-Expr: OperExpr {}
-	| RefExpr {}
-	| INTNUM {}
-	| FLOATNUM {}
+Expr: OperExpr
+		{
+			//struct Stmt* stmt = (struct Stmt*)malloc(sizeof(struct Stmt));
+			//stmt->e = eExpr;
+			//stmt->type.exprStmt = $1;
+			//$$ = stmt;
+			struct Expr* expr = (struct Expr*)malloc(sizeof(struct Expr));
+			expr->e = eOper;
+			expr->type.operExpr = $1;
+			$$ = expr;
+		}
+	| RefExpr
+		{
+			struct Expr* expr = (struct Expr*)malloc(sizeof(struct Expr));
+			expr->e = eRef;
+			expr->type.refExpr = $1;
+			$$ = expr;
+		}
+	| INTNUM
+		{
+			struct Expr* expr = (struct Expr*)malloc(sizeof(struct Expr));
+			expr->e = eIntnum;
+			expr->type.intnum = $1;
+			$$ = expr;
+		}
+	| FLOATNUM
+		{
+			struct Expr* expr = (struct Expr*)malloc(sizeof(struct Expr));
+			expr->e = eFloatnum;
+			expr->type.floatnum = $1;
+			$$ = expr;
+		}
 	;
-OperExpr: UNOP Expr /*%prec UMINUS*/ {}
-	| Expr ADDIOP Expr {}
-	| Expr MULTOP Expr {}
-	| Expr RELAOP Expr {}
-	| Expr EQLTOP Expr {}
-	| '(' Expr ')' {}
+OperExpr: UNOP Expr /*%prec UMINUS*/
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eUn;
+			operExpr->type.un = $1;
+			operExpr->type.un->expr = $2;
+			$$ = operExpr;
+		}
+	| Expr ADDIOP Expr
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eAddi;
+			operExpr->type.addi = $2;
+			operExpr->type.addi->lhs = $1;
+			operExpr->type.addi->rhs = $3;
+			$$ = operExpr;
+		}
+	| Expr MULTOP Expr
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eMult;
+			operExpr->type.mult = $2;
+			operExpr->type.mult->lhs = $1;
+			operExpr->type.mult->rhs = $3;
+			$$ = operExpr;
+		}
+	| Expr RELAOP Expr
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eRela;
+			operExpr->type.rela = $2;
+			operExpr->type.rela->lhs = $1;
+			operExpr->type.rela->rhs = $3;
+			$$ = operExpr;
+		}
+	| Expr EQLTOP Expr
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eEqlt;
+			operExpr->type.eqlt = $2;
+			operExpr->type.eqlt->lhs = $1;
+			operExpr->type.eqlt->rhs = $3;
+			$$ = operExpr;
+		}
+	| '(' Expr ')'
+		{
+			struct OperExpr *operExpr = (struct OperExpr*)malloc(sizeof(struct OperExpr));
+			operExpr->e = eBracket;
+			operExpr->type.bracket = $2;
+			$$ = operExpr;
+		}
 	;
-RefExpr: RefVarExpr {}
-	| RefCallExpr {}
+RefExpr: RefVarExpr
+		{
+			struct RefExpr *refExpr = (struct RefExpr*)malloc(sizeof(struct RefExpr));
+			refExpr->e = eVar;
+			refExpr->type.refVarExpr = $1;
+			$$ = refExpr;
+		}
+	| RefCallExpr
+		{
+			struct RefExpr *refExpr = (struct RefExpr*)malloc(sizeof(struct RefExpr));
+			refExpr->e = eCall;
+			refExpr->type.refCallExpr = $1;
+			$$ = refExpr;
+		}
 	;
-RefVarExpr: IdentExpr {}
-	| RefExpr '.' IdentExpr {}
+RefVarExpr: IdentExpr
+		{
+			struct RefVarExpr *refVarExpr = (struct RefVarExpr*)malloc(sizeof(struct RefVarExpr));
+			refVarExpr->refExpr = NULL;
+			refVarExpr->identExpr = $1;
+			$$ = refVarExpr;
+		}
+	| RefExpr '.' IdentExpr
+		{
+			struct RefVarExpr *refVarExpr = (struct RefVarExpr*)malloc(sizeof(struct RefVarExpr));
+			refVarExpr->refExpr = $1;
+			refVarExpr->identExpr = $3;
+			$$ = refVarExpr;
+		}
 	;
-RefCallExpr: CallExpr {}
-	| RefExpr '.' CallExpr {}
+RefCallExpr: CallExpr
+		{
+			struct RefCallExpr *refCallExpr = (struct RefCallExpr*)malloc(sizeof(struct RefCallExpr));
+			refCallExpr->refExpr = NULL;
+			refCallExpr->callExpr = $1;
+			$$ = refCallExpr;
+		}
+	| RefExpr '.' CallExpr
+		{
+			struct RefCallExpr *refCallExpr = (struct RefCallExpr*)malloc(sizeof(struct RefCallExpr));
+			refCallExpr->refExpr = $1;
+			refCallExpr->callExpr = $3;
+			$$ = refCallExpr;
+		}
 	;
-IdentExpr: ID '[' Expr ']' {}
-	| ID {}
+IdentExpr: ID '[' Expr ']'
+		{
+			struct IdentExpr *identExpr = (struct IdentExpr*)malloc(sizeof(struct IdentExpr));
+			identExpr->id = $1;
+			identExpr->expr = $3;
+			$$ = identExpr;
+		}
+	| ID
+		{
+			struct IdentExpr *identExpr = (struct IdentExpr*)malloc(sizeof(struct IdentExpr));
+			identExpr->id = $1;
+			identExpr->expr = NULL;
+			$$ = identExpr;
+		}
 	;
-CallExpr: ID '(' ')' {}
-	| ID '(' ArgList ')' {}
+CallExpr: ID '(' ')'
+		{
+			struct CallExpr *callExpr = (struct CallExpr*)malloc(sizeof(struct CallExpr));
+			callExpr->id = $1;
+			callExpr->arg = NULL;
+			$$ = callExpr;
+		}
+	| ID '(' ArgList ')'
+		{
+			struct CallExpr *callExpr = (struct CallExpr*)malloc(sizeof(struct CallExpr));
+			callExpr->id = $1;
+			callExpr->arg = $3;
+			$$ = callExpr;
+		}
 	;
 
 ArgList: Expr
