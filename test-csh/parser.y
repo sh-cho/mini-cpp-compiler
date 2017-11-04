@@ -24,7 +24,6 @@
 %token INTNUM
 %token INTTYPE
 %token CLASS
-%token PRIVATE
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
