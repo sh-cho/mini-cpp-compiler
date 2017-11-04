@@ -13,6 +13,19 @@
 
 %token INTNUM FLOATNUM
 %token CLASS
+%token DO
+%token ELSE
+%token FLOAT
+%token FOR
+%token ID
+%token IF
+%token INT
+%token MAIN
+%token PRIVATE
+%token PUBLIC
+%token RETURN
+%token UNOP
+%token WHILE
 
 %type <prog> Program
 
