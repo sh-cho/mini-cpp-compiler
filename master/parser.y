@@ -13,9 +13,15 @@
 
 %union {
 	struct Program *prog;
+	struct Class *_class;
+	struct MainFunc *mainFunc;
+
+	char *id;
+	int intnum;
+	float floatnum;
 }
 
-%token INTNUM FLOATNUM
+%token <intnum>INTNUM <floatnum>FLOATNUM
 %token CLASS
 %token DO
 %token ELSE
@@ -32,6 +38,8 @@
 %token WHILE
 
 %type <prog> Program
+%type <_class> Class
+%type <mainFunc> MainFunc
 
 %right ASGNOP
 %left EQLTOP
@@ -62,8 +70,19 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc {}
-	| MainFunc {}
+Program: ClassList ClassMethodList MainFunc
+		{
+		}
+	| MainFunc
+		{
+			struct Program *prog = (struct Program*)malloc(sizeof(struct Program));
+			prog->_class = NULL;
+			prog->mainFunc = $1;
+
+			head = prog;
+
+			$$ = prog;
+		}
 	;
 
 ClassList: Class {}
@@ -74,10 +93,14 @@ Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}' {}
 	| CLASS ID '{' PRIVATE ':' Member '}' {}
 	| CLASS ID '{' PUBLIC ':' Member '}' {}
 	;
-Member: VarDeclList MethodDeclList MethodDefList {}
+Member: VarDeclList MethodDeclList MethodDefList {}	//111
 	| VarDeclList MethodDeclList {}	//110
-
-	//
+	| VarDeclList MethodDefList {} //101
+	| VarDeclList //100
+	| MethodDeclList MethodDefList //011
+	| MethodDeclList //010
+	| MethodDefList //001
+	| //000. empty
 	;
 
 VarDeclList: VarDecl {}
@@ -108,7 +131,14 @@ ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt {}
 	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt {}
 	;
 
-MainFunc: INTTYPE MAIN '(' ')' CompoundStmt {}
+MainFunc: INTTYPE MAIN '(' ')' CompoundStmt
+		{
+			struct MainFunc *new_main = (struct MainFunc *)malloc(sizeof(struct MainFunc));
+			//new_main->compoundStmt = $5;
+			new_main->compoundStmt = NULL;
+
+			$$ = new_main;
+		}
 	;
 
 ParamList: Param {}
@@ -128,7 +158,10 @@ Type: INTTYPE {}
 CompoundStmt: '{' VarDeclList StmtList '}' {}
 	| '{' VarDeclList '}' {}
 	| '{' StmtList '}' {}
-	| '{' '}' {}
+	| '{' '}'
+		{
+
+		}
 	;
 
 StmtList: Stmt {}

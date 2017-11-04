@@ -3,6 +3,8 @@
 
 #include "AST.h"
 
+struct Program *head;
+
 void print();
 
 #endif
