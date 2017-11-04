@@ -22,7 +22,6 @@
 %token INTTYPE
 %token CLASS
 %token PRIVATE
-%token PUBLIC
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
@@ -73,13 +72,6 @@ Class: CLASS ID '{' PRIVATE ':' INTNUM ';' '}'
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
 			new_class->mem1 = $6;
-			$$ = new_class;
-		}
-	| CLASS ID '{' PUBLIC ':' INTNUM ';' '}'
-		{
-			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
-			new_class->id = $2;
-			new_class->mem2 = $6;
 			$$ = new_class;
 		}
 	;
