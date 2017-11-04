@@ -1,5 +1,5 @@
 class a {
-	int a;
+	int bbb;
 	void print();
 }
 
