@@ -632,7 +632,7 @@ RetStmt: RETURN ';'
 		}
 	| RETURN Expr ';'
 		{
-			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(RetStmt));
+			struct RetStmt *retStmt = (struct RetStmt*)malloc(sizeof(struct RetStmt));
 			retStmt->expr = $2;
 			$$ = retStmt;
 		}
