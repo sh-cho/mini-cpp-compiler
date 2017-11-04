@@ -183,12 +183,12 @@ RefCallExpr: CallExpr {}
 IdentExpr: ID '[' Expr ']' {}
 	| ID {}
 	;
-CallExpr: ID '(' ')' {}
-	| ID '(' ArgList ')' {}
+CallExpr: ID '(' ArgList ')' {}
 	;
 
 ArgList: Expr {}
 	| ArgList ',' Expr {}
+	| /*empty*/ {}
 	;
 
 
