@@ -38,6 +38,8 @@
 
 Program: MainFunc
 		{
+			printf("   ***** 4 \n");
+
 			//make ast
 			struct Program *prog = (struct Program*)malloc(sizeof(struct Program));
 			prog->_class = NULL;
@@ -49,6 +51,9 @@ Program: MainFunc
 		}
 	| ClassList MainFunc
 		{
+			printf("   ***** 5 \n");
+
+
 			//make ast
 			struct Program *prog = (struct Program*)malloc(sizeof(struct Program));
 			prog->_class = $1;
@@ -62,10 +67,13 @@ Program: MainFunc
 
 ClassList: Class
 		{
+			printf("   ***** 2 \n");
 			$$ = $1;
 		}
 	| ClassList Class
 		{
+			printf("   ***** 3 \n");
+
 			$2->prev = $1;
 			$$ = $2;
 		}
@@ -73,7 +81,7 @@ ClassList: Class
 
 Class: CLASS ID '{' INTNUM '}'
 		{
-			printf("***** class \n");
+			printf("   ***** 1 \n");
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
 			new_class->mem1 = $4;
@@ -84,6 +92,8 @@ Class: CLASS ID '{' INTNUM '}'
 
 MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 		{
+			printf("   ***** 6 \n");
+
 			struct MainFunc *new_main = (struct MainFunc*)malloc(sizeof(struct MainFunc));
 			new_main->body = $9;
 			$$ = new_main;
