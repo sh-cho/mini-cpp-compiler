@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include "print.h"
 
-FILE *fp;
+// FILE *fp;
 
 int main() {
-	fp = fopen("sample.out", "w");
+	// fp = fopen("sample.out", "w");
+
+	extern FILE *yyin;
+	yyin = fopen("test-input.txt", "r");
+
 	if (!yyparse())
 		dfs();
 	

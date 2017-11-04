@@ -1,0 +1,12 @@
+class a {
+	int a;
+	void print();
+}
+
+void a::print() {
+	return;
+}
+
+int main() {
+	return 0;
+}
