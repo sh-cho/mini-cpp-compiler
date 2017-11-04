@@ -14,8 +14,8 @@ int main() {
 }
 
 void dfs() {
-	if (head == NULL) {
-		fprintf(stderr, "Program does not exist.\n");
-		return;
-	}
+	// if (head == NULL) {
+	// 	fprintf(stderr, "Program does not exist.\n");
+	// 	return;
+	// }
 }
