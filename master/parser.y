@@ -73,7 +73,6 @@
 %token PRIVATE
 %token PUBLIC
 %token RETURN
-%token UNOP
 %token WHILE
 
 %type<id>	ID
