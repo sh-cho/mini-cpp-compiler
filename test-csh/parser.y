@@ -7,6 +7,10 @@
 	int yylex();
 	int yyparse();
 	void yyerror(char *);
+
+	extern int yylineno;
+	extern char* yytext;
+	extern int yylval;
 %}
 
 %union {
@@ -84,12 +88,10 @@ MainFunc: INTTYPE 'm' 'a' 'i' 'n' '(' ')' '{' ID '}'
 		}
 	;
 
-PRIVATE: %empty {}
-	;
-
 %%
 	/* c code */
 void yyerror(char *s) {
-	fprintf(stderr, "error: %s\n", s);
+	// fprintf(stderr, "error: %s\n", s);
 	// printf("%d: %s at %s\n", yylineno, s, yytext);
+	fprintf(stderr, "%d: error: '%s' at '%s', yylval=%u\n", yylineno, s, yytext, yylval);
 }
