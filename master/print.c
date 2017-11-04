@@ -36,6 +36,6 @@ void dfs() {
 	if (head->mainFunc == NULL) {
 		printf("  *** there is no main\n");
 	} else {
-		printf("  *** main exists");
+		printf("  *** main exists\n");
 	}
 }

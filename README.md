@@ -22,4 +22,5 @@ using flex, bison
     Type: ID
     IdentExpr: ID
     ```
-	--> reduce conflict
+	--> reduce conflict?
+	1. AST.h --> ClassMethodDef에 Type 없음

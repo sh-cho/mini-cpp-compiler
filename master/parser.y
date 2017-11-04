@@ -16,6 +16,36 @@
 	struct Program *prog;
 	struct Class *_class;
 	struct MainFunc *mainFunc;
+	struct Member *member;
+	struct VarDecl *varDecl;
+	struct MethodDecl *methodDecl;
+	struct MethodDef *methodDef;
+	struct ClassMethodDef *classMethodDef;
+	struct Param *param;
+	struct Ident *ident;
+	struct Type *type;
+	struct CompoundStmt *compoundStmt;
+	struct Stmt *stmt;
+	struct ExprStmt *exprStmt;
+	struct AssignStmt *assignStmt;
+	struct RetStmt *retStmt;
+	struct WhileStmt *whileStmt;
+	struct DoStmt *doStmt;
+	struct ForStmt *forStmt;
+	struct IfStmt *ifStmt;
+	struct Expr *expr;
+	struct OperExpr *operExpr;
+	struct RefExpr *refExpr;
+	struct RefVarExpr *refVarExpr;
+	struct RefCallExpr *refCallExpr;
+	struct IdentExpr *identExpr;
+	struct CallExpr *callExpr;
+	struct Arg *arg;
+	struct UnOp *unOp;
+	struct AddiOp *addiOp;
+	struct MultOp *multOp;
+	struct RelaOp *relaOp;
+	struct EqltOp *eqltOp;
 
 	char *id;
 	int intnum;
@@ -41,13 +71,42 @@
 %type <prog> Program
 %type <_class> Class
 %type <mainFunc> MainFunc
+%type <member> Member;
+%type <varDecl> VarDecl;
+%type <methodDecl> MethodDecl;
+%type <methodDef> MethodDef;
+%type <classMethodDef> ClassMethodDef;
+%type <param> Param;
+%type <ident> Ident;
+%type <type> Type;
+%type <compoundStmt> CompoundStmt;
+%type <stmt> Stmt;
+%type <exprStmt> ExprStmt;
+%type <assignStmt> AssignStmt;
+%type <retStmt> RetStmt;
+%type <whileStmt> WhileStmt;
+%type <doStmt> DoStmt;
+%type <forStmt> ForStmt;
+%type <ifStmt> IfStmt;
+%type <expr> Expr;
+%type <operExpr> OperExpr;
+%type <refExpr> RefExpr;
+%type <refVarExpr> RefVarExpr;
+%type <refCallExpr> RefCallExpr;
+%type <identExpr> IdentExpr;
+%type <callExpr> CallExpr;
+%type <arg> Arg;
+%type <unOp> UnOp;
+%type <addiOp> AddiOp;
+%type <multOp> MultOp;
+%type <relaOp> RelaOp;
+%type <eqltOp> EqltOp;
 
 %right ASGNOP
 %left EQLTOP
 %left RELAOP
 %left ADDIOP
 %left MULTOP
-%right UMINUS
 
 %%
 	/* rules & actions */
@@ -73,6 +132,13 @@
 
 Program: ClassList ClassMethodList MainFunc
 		{
+			struct Program *prog = (struct Program*)malloc(sizeof(struct Program));
+			prog->_class = $1;
+			prog->classMethodDef = $2;
+			prog->mainFunc = $3;
+
+			head = prog;
+			$$ = prog;
 		}
 	| MainFunc
 		{
@@ -81,75 +147,317 @@ Program: ClassList ClassMethodList MainFunc
 			prog->mainFunc = $1;
 
 			head = prog;
-
 			$$ = prog;
 		}
 	;
 
-ClassList: Class {}
-	| ClassList Class {}
+ClassList: Class
+		{
+			$$ = $1;
+		}
+	| ClassList Class
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
 
-Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}' {}
-	| CLASS ID '{' PRIVATE ':' Member '}' {}
-	| CLASS ID '{' PUBLIC ':' Member '}' {}
+Class: CLASS ID '{' PRIVATE ':' Member PUBLIC ':' Member '}'
+		{
+			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
+			new_class->id = $2;
+			new_class->priMember = $6;
+			new_class->pubMember = $9;
+
+			$$ = new_class;
+		}
+	| CLASS ID '{' PRIVATE ':' Member '}'
+		{
+			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
+			new_class->id = $2;
+			new_class->priMember = $6;
+			new_class->pubMember = NULL;
+
+			$$ = new_class;
+		}
+	| CLASS ID '{' PUBLIC ':' Member '}'
+		{
+			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
+			new_class->id = $2;
+			new_class->priMember = NULL;
+			new_class->pubMember = $6;
+
+			$$ = new_class;
+		}
 	;
-Member: VarDeclList MethodDeclList MethodDefList {}	//111
-	| VarDeclList MethodDeclList {}	//110
-	| VarDeclList MethodDefList {} //101
-	| VarDeclList //100
-	| MethodDeclList MethodDefList //011
-	| MethodDeclList //010
-	| MethodDefList //001
-	| //000. empty
+Member: VarDeclList MethodDeclList MethodDefList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = $1;
+			new_mem->methodDecl = $2;
+			new_mem->methodDef = $3;
+
+			$$ = new_mem;
+		}
+	| VarDeclList MethodDeclList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = $1;
+			new_mem->methodDecl = $2;
+			new_mem->methodDef = NULL;
+
+			$$ = new_mem;
+		}
+	| VarDeclList MethodDefList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = $1;
+			new_mem->methodDecl = NULL;
+			new_mem->methodDef = $3;
+
+			$$ = new_mem;
+		}
+	| VarDeclList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = $1;
+			new_mem->methodDecl = NULL;
+			new_mem->methodDef = NULL;
+
+			$$ = new_mem;
+		}
+	| MethodDeclList MethodDefList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = NULL;
+			new_mem->methodDecl = $2;
+			new_mem->methodDef = $3;
+
+			$$ = new_mem;
+		}
+	| MethodDeclList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = NULL;
+			new_mem->methodDecl = $2;
+			new_mem->methodDef = NULL;
+
+			$$ = new_mem;
+		}
+	| MethodDefList
+		{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = NULL;
+			new_mem->methodDecl = NULL;
+			new_mem->methodDef = $3;
+
+			$$ = new_mem;
+		}
+	|	{
+			struct Member *new_mem = (struct Member *)malloc(sizeof(struct Member));
+
+			new_mem->varDecl = NULL;
+			new_mem->methodDecl = NULL;
+			new_mem->methodDef = NULL;
+
+			$$ = new_mem;
+		}
 	;
 
-VarDeclList: VarDecl {}
-	| VarDeclList VarDecl {}
+VarDeclList: VarDecl
+		{
+			$$ = $1;
+		}
+	| VarDeclList VarDecl
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
-MethodDeclList: FuncDecl {}
-	| MethodDeclList FuncDecl {}
+MethodDeclList: FuncDecl
+		{
+			$$ = $1;
+		}
+	| MethodDeclList FuncDecl
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
-MethodDefList: FuncDef {}
-	| MethodDefList FuncDef {}
+MethodDefList: FuncDef
+		{
+			$$ = $1;
+		}
+	| MethodDefList FuncDef
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
 
-VarDecl: Type Ident ';' {}
-	| Type Ident '=' INTNUM ';' {}
-	| Type Ident '=' FLOATNUM ';' {}
+VarDecl: Type Ident ';'
+		{
+			struct VarDecl *vardecl = (struct VarDecl *)malloc(sizeof(struct VarDecl));
+			vardecl->type = $1;
+			vardecl->ident = $2;
+			vardecl->expr = NULL;	//TODO
+
+			$$ = vardecl;
+		}
+	| Type Ident '=' INTNUM ';'
+		{
+			struct VarDecl *vardecl = (struct VarDecl *)malloc(sizeof(struct VarDecl));
+			vardecl->type = $1;
+			vardecl->ident = $2;
+			vardecl->expr = NULL;	//TODO
+			
+			//expression ?
+			//struct Expr *expr = 
+
+			$$ = vardecl;
+		}
+	| Type Ident '=' FLOATNUM ';'
+		{
+			struct VarDecl *vardecl = (struct VarDecl *)malloc(sizeof(struct VarDecl));
+			vardecl->type = $1;
+			vardecl->ident = $2;
+			vardecl->expr = NULL;	//TODO
+
+			$$ = vardecl;
+		}
 	;
-FuncDecl: Type ID '(' ')' ';' {}
-	| Type ID '(' ParamList ')' ';' {}
+FuncDecl: Type ID '(' ')' ';'
+		{
+			// == MethodDecl
+			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(struct MethodDecl);
+
+			methodDecl->id = $2;
+			methodDecl->type = $1;
+			methodDecl->param = NULL;
+
+			$$ = methodDecl;
+		}
+	| Type ID '(' ParamList ')' ';'
+		{
+			struct MethodDecl *methodDecl = (struct MethodDecl *)malloc(struct MethodDecl);
+
+			methodDecl->id = $2;
+			methodDecl->type = $1;
+			methodDecl->param = $4;
+
+			$$ = methodDecl;
+		}
 	;
-FuncDef: Type ID '(' ')' CompoundStmt {}
-	| Type ID '(' ParamList ')' CompoundStmt {}
+FuncDef: Type ID '(' ')' CompoundStmt
+		{
+			struct MethodDef *methodDef = (struct MethodDef *)malloc(sizeof(struct MethodDef));
+
+			methodDef->id = $2;
+			methodDef->type = $1;
+			methodDef->param = NULL;
+			methodDef->compoundStmt = $5;
+
+			$$ = methodDef;
+		}
+	| Type ID '(' ParamList ')' CompoundStmt
+		{
+			struct MethodDef *methodDef = (struct MethodDef *)malloc(sizeof(struct MethodDef));
+
+			methodDef->id = $2;
+			methodDef->type = $1;
+			methodDef->param = $4;
+			methodDef->compoundStmt = $6;
+
+			$$ = methodDef;
+		}
 	;
 
-ClassMethodList: ClassMethodDef {}
-	| ClassMethodList ClassMethodDef {}
+ClassMethodList: ClassMethodDef
+		{
+			$$ = $1;
+		}
+	| ClassMethodList ClassMethodDef
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
-ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt {}
-	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt {}
+ClassMethodDef: Type ID ':' ':' ID '(' ')' CompoundStmt
+		{
+			struct ClassMethodDef *classMethodDef = (struct ClassMethodDef*)malloc(sizeof(struct ClassMethodDef));
+
+			//TODO: 타입?
+			classMethodDef->className = $2;
+			classMethodDef->methodName = $5;
+			classMethodDef->param = NULL;
+			classMethodDef->compoundStmt = $8;
+
+			$$ = classMethodDef;
+		}
+	| Type ID ':' ':' ID '(' ParamList ')' CompoundStmt
+		{
+			struct ClassMethodDef *classMethodDef = (struct ClassMethodDef*)malloc(sizeof(struct ClassMethodDef));
+
+			//TODO: 타입?
+			classMethodDef->className = $2;
+			classMethodDef->methodName = $5;
+			classMethodDef->param = $7;
+			classMethodDef->compoundStmt = $9;
+
+			$$ = classMethodDef;
+		}
 	;
 
 MainFunc: INTTYPE MAIN '(' ')' CompoundStmt
 		{
 			struct MainFunc *new_main = (struct MainFunc *)malloc(sizeof(struct MainFunc));
-			//new_main->compoundStmt = $5;
-			new_main->compoundStmt = NULL;
+			new_main->compoundStmt = $5;
 
 			$$ = new_main;
 		}
 	;
 
-ParamList: Param {}
-	| ParamList ',' Param {}
+ParamList: Param
+		{
+			$$ = $1;
+		}
+	| ParamList ',' Param 
+		{
+			$3->prev = $1;
+			$$ = $3;
+		}
 	;
-Param: Type Ident {}
+Param: Type Ident 
+		{
+			struct Param *param = (struct Param *)malloc(sizeof(struct Param));
+			param->type = $1;
+			param->ident = $2;
+
+			$$ = param;
+		}
 	;
 
-Ident: ID {}
-	| ID '[' INTNUM ']' {}
+Ident: ID
+		{
+			struct Ident *ident = (struct Ident*)malloc(sizeof(struct Ident));
+			ident->id = $1;
+			ident->len = 0;
+			$$ = ident;
+		}
+	| ID '[' INTNUM ']'
+		{
+			struct Ident *ident = (struct Ident*)malloc(sizeof(struct Ident));
+			ident->id = $1;
+			ident->len = $3;
+			$$ = ident;
+		}
 	;
 Type: INTTYPE {}
 	| FLOATTYPE {}
@@ -165,8 +473,15 @@ CompoundStmt: '{' VarDeclList StmtList '}' {}
 		}
 	;
 
-StmtList: Stmt {}
-	| StmtList Stmt {}
+StmtList: Stmt 
+		{
+			$$ = $1;
+		}
+	| StmtList Stmt
+		{
+			$2->prev = $1;
+			$$ = $2;
+		}
 	;
 
 Stmt: ExprStmt {}
@@ -202,7 +517,7 @@ Expr: OperExpr {}
 	| INTNUM {}
 	| FLOATNUM {}
 	;
-OperExpr: UNOP Expr %prec UMINUS {}
+OperExpr: UNOP Expr /*%prec UMINUS*/ {}
 	| Expr ADDIOP Expr {}
 	| Expr MULTOP Expr {}
 	| Expr RELAOP Expr {}
@@ -221,14 +536,20 @@ RefCallExpr: CallExpr {}
 IdentExpr: ID '[' Expr ']' {}
 	| ID {}
 	;
-CallExpr: ID '(' ArgList ')' {}
+CallExpr: ID '(' ')' {}
+	| ID '(' ArgList ')' {}
 	;
 
-ArgList: Expr {}
-	| ArgList ',' Expr {}
-	| /*empty*/ {}
+ArgList: Expr
+		{
+			$$ = $1;
+		}
+	| ArgList ',' Expr
+		{
+			$3->prev = $1;
+			$$ = $3;
+		}
 	;
-
 
 
 
