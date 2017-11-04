@@ -1,5 +1,5 @@
 TARGET = mini-gcc
-OBJECTS = lex.yy.c parser.tab.c parser.tab.h
+OBJECTS = lex.yy.c parser.tab.c parser.tab.h parser.output
 
 $(TARGET) : $(OBJECTS)
 	gcc -o $@ print.c $^ -lfl -g

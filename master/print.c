@@ -5,6 +5,8 @@
 
 int main() {
 	// fp = fopen("sample.out", "w");
+	extern int yydebug;
+	yydebug = 1;
 
 	extern FILE *yyin;
 	yyin = fopen("test-input.txt", "r");
