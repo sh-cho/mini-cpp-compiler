@@ -9,6 +9,8 @@
 	extern char* yytext;
 %}
 
+%error-verbose
+
 %union {
 	struct Program *prog;
 }

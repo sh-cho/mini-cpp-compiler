@@ -1,6 +1,5 @@
 	/* declarations */
 %{
-	#define YYERROR_VERBOSE
 	#include "parser.tab.h"
 %}
 	/* patterns */
