@@ -16,11 +16,13 @@ space		[ \t\r\n]+
 
 	/* patterns */
 {id} {
+	printf("id yytext: %s\n", yytext);
 	yylval.id = strdup(yytext);
 	return ID;
 }
 
 {intnum} {
+	printf("intnum yytext: %s\n", yytext);
 	yylval.intnum = atoi(yytext);
 	return INTNUM;
 }
