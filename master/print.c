@@ -12,8 +12,8 @@ int main() {
 	if (!yyparse())
 		dfs();
 	
-	fprintf(fp, "\n");
-	fclose(fp);
+	// fprintf(fp, "\n");
+	// fclose(fp);
 	return 0;
 }
 
