@@ -54,6 +54,7 @@
 }
 
 %token <intnum>INTNUM <floatnum>FLOATNUM
+%token <id>ID
 %token CLASS
 %token DO
 %token ELSE
@@ -68,9 +69,6 @@
 %token RETURN
 %token UNOP
 %token WHILE
-
-%type<id>	ID
-%type<intnum>	INTNUM
 
 %type <prog> Program
 %type <_class> ClassList Class
