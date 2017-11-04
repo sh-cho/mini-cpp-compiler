@@ -60,8 +60,8 @@
 	 *
 	 */
 
-Program: ClassList ClassMethodList MainFunc EOF {}
-	| MainFunc EOF {}
+Program: ClassList ClassMethodList MainFunc {}
+	| MainFunc {}
 	;
 
 ClassList: Class {}

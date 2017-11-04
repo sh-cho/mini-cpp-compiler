@@ -123,10 +123,6 @@ while {
 	break;
 }
 
-. {
-	return EOF;
-}
-
 
 %%
 	/* c code */
