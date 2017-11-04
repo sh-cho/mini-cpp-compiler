@@ -24,6 +24,7 @@
 %token INTNUM
 %token INTTYPE
 %token CLASS
+%token PRIVATE
 
 %type<id>	ID;
 %type<intnum>	INTNUM;
@@ -69,7 +70,7 @@ ClassList: Class
 		}
 	;
 
-Class: CLASS ID '{' "private" ':' INTNUM ';' '}'
+Class: CLASS ID '{' PRIVATE ':' INTNUM '}'
 		{
 			struct Class *new_class = (struct Class*)malloc(sizeof(struct Class));
 			new_class->id = $2;
